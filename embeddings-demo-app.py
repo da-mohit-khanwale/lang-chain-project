@@ -2,7 +2,7 @@ import os
 import sys
 import streamlit as st
 
-# import openai
+import openai
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import DirectoryLoader, TextLoader
@@ -17,10 +17,6 @@ from keys import openai_api_key
 os.environ["OPENAI_API_KEY"] = openai_api_key
 # Enable to save to disk & reuse the model (for repeated queries on the same data)
 PERSIST = False
-
-query = None
-if len(sys.argv) > 1:
-    query = sys.argv[1]
 
 if PERSIST and os.path.exists("persist"):
     print("Reusing index...\n")
@@ -47,16 +43,6 @@ retrieval_chain = ConversationalRetrievalChain.from_llm(
 st.title("Retrieval App 🔎🕵")
 query = st.text_input("Prompt for your personal data:")
 chat_history = []
-# while True:
-#     if not query:
-#         query = input("Prompt: ")
-#     if query in ["quit", "q", "exit"]:
-#         sys.exit()
-#     result = retrieval_chain({"question": query, "chat_history": chat_history})
-#     print(result["answer"])
-
-#     chat_history.append((query, result["answer"]))
-#     query = None
 
 result = retrieval_chain({"question": query, "chat_history": chat_history})
 print(result["answer"])
