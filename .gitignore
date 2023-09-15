@@ -1,3 +1,9 @@
 venv
 *.pyc
 *.txt
+venv311
+*.csv
+*checkpoint*
+__pycache__
+keys.py
+*.pdf
